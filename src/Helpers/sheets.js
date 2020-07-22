@@ -1,20 +1,25 @@
 import config from "../config";
 
-export function load(callback) {
+import Exercise from "../Models/Exercise";
+
+export function load(sheetName, callback) {
     window.gapi.client.load("sheets", "v4", () => {
         window.gapi.client.sheets.spreadsheets.values
             .get({
                 spreadsheetId: config.sheetId,
-                range: "Legs!A3:T"
+                range: sheetName + "!A3:T"
             })
             .then(
                 response => {
                     const data = response.result.values;
-                    console.log(data);
-                },
-                response => {
-                    callback(false, response.result.error);
+                    let formattedData = parseData(data);
+                    callback(formattedData);
                 }
             );
     });
+}
+
+function parseData(data) {
+    // console.log(data);
+    return data;
 }
