@@ -1,7 +1,9 @@
 import React from 'react';
 
+import SingleGraph from "./SingleGraph";
+
 import config from "../config";
-import { load } from "../Helpers/sheets";
+import { getSheetData } from "../Helpers/sheets";
 
 // TODO get this info from sheet names
 const EXERCISE_GROUPS = [
@@ -13,12 +15,12 @@ const EXERCISE_GROUPS = [
     "Cardio"
 ]
 
-class Graphs extends React.Component {
+export default class Graphs extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             exercises: {},
-            activeExerciseGroup: EXERCISE_GROUPS[0]
+            activeExerciseGroup: ""
         }
     }
 
@@ -36,20 +38,22 @@ class Graphs extends React.Component {
     }
 
     selectExerciseGroup = (exerciseGroup) => {
-        this.setState({
-            activeExerciseGroup: exerciseGroup
-        });
-
         if (!this.state.exercises[exerciseGroup]) {
             this.getExerciseGroup(exerciseGroup);
+        }
+        else {
+            this.setState({
+                activeExerciseGroup: exerciseGroup
+            });
         }
     }
 
     getExerciseGroup = (exerciseGroup) => {
-        load(exerciseGroup, (data) => {
+        getSheetData(exerciseGroup, (data) => {
             let newExercises = this.state.exercises;
             newExercises[exerciseGroup] = data;
             this.setState({
+                activeExerciseGroup: exerciseGroup,
                 exercises: newExercises
             });
         });
@@ -66,6 +70,23 @@ class Graphs extends React.Component {
                 </li>
             )
         });
+        let graphHtml = [];
+        let currentExericse = "";
+        if (!this.state.exercises || !this.state.exercises[this.state.activeExerciseGroup]) {
+
+        }
+        else {
+            currentExericse = this.state.exercises[this.state.activeExerciseGroup];
+            // console.log(currentExericse);
+            for (let exerciseName in currentExericse) {
+                // console.log(currentExericse[exerciseName]);
+                graphHtml.push(<SingleGraph exercises={currentExericse[exerciseName]} key={exerciseName}/>);
+            }
+        }
+
+        // while testing only show one graph
+        // graphHtml = graphHtml[0];
+
 
         return (
             <React.Fragment>
@@ -76,11 +97,9 @@ class Graphs extends React.Component {
                 </div>
                 <div className="section">
                     <h1>Currently viewing: {this.state.activeExerciseGroup}</h1>
-                    <p>{this.state.exercises[this.state.activeExerciseGroup]}</p>
+                    {graphHtml}
                 </div>
             </React.Fragment>
         )
     }
 }
-
-export default Graphs;

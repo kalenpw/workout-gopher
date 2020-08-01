@@ -1,3 +1,5 @@
+import Set from "./Set";
+
 export default class Exercise {
     constructor(name, date) {
         this.name = name;
@@ -6,6 +8,6 @@ export default class Exercise {
     }
 
     addSet(weight, reps) {
-
+        this.sets.push(new Set(weight, reps))
     }
 }
