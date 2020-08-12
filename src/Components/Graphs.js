@@ -4,6 +4,7 @@ import SingleGraph from "./SingleGraph";
 
 import config from "../config";
 import { getSheetData } from "../Helpers/sheets";
+import TEST_DATA from "../Helpers/test_data";
 
 // TODO get this info from sheet names
 const EXERCISE_GROUPS = [
@@ -13,28 +14,42 @@ const EXERCISE_GROUPS = [
     "Shoulders",
     "Back",
     "Cardio"
-]
+];
+
+const TESTING = true;
 
 export default class Graphs extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            exercises: {},
-            activeExerciseGroup: ""
+
+        if (TESTING) {
+            this.state = {
+                exercises: TEST_DATA,
+                activeExerciseGroup: "Legs"
+            }
+
+        }
+        else {
+            this.state = {
+                exercises: {},
+                activeExerciseGroup: ""
+            }
         }
     }
 
     componentDidMount() {
-        window.gapi.load("client", () => {
-            window.gapi.client
-                .init({
-                    apiKey: config.apiKey,
-                    discoveryDocs: config.discoveryDocs
-                })
-                .then(response => {
-                    this.selectExerciseGroup(EXERCISE_GROUPS[0]);
-                })
-        });
+        if (!TESTING) {
+            window.gapi.load("client", () => {
+                window.gapi.client
+                    .init({
+                        apiKey: config.apiKey,
+                        discoveryDocs: config.discoveryDocs
+                    })
+                    .then(response => {
+                        this.selectExerciseGroup(EXERCISE_GROUPS[0]);
+                    })
+            });
+        }
     }
 
     selectExerciseGroup = (exerciseGroup) => {
@@ -60,6 +75,7 @@ export default class Graphs extends React.Component {
     }
 
     render() {
+        console.log(this.state.exercises);
         let tabOptions = EXERCISE_GROUPS.map((exercise) => {
             return (
                 <li
@@ -80,7 +96,7 @@ export default class Graphs extends React.Component {
             // console.log(currentExericse);
             for (let exerciseName in currentExericse) {
                 // console.log(currentExericse[exerciseName]);
-                graphHtml.push(<SingleGraph exercises={currentExericse[exerciseName]} key={exerciseName}/>);
+                graphHtml.push(<SingleGraph exercises={currentExericse[exerciseName]} key={exerciseName} />);
             }
         }
 
@@ -95,8 +111,7 @@ export default class Graphs extends React.Component {
                         {tabOptions}
                     </ul>
                 </div>
-                <div className="section">
-                    <h1>Currently viewing: {this.state.activeExerciseGroup}</h1>
+                <div className="section columns is-multiline is-desktop">
                     {graphHtml}
                 </div>
             </React.Fragment>
