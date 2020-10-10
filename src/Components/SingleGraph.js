@@ -24,16 +24,20 @@ export default class SingleGraph extends React.Component {
     render() {
         let exercises = this.props.exercises;
         let graphTitle = "";
+        let maxWeight = 0;
         let xTicks = [];
         let yTicks = [];
         let data = [];
 
         for (let exercise of exercises) {
             graphTitle = exercise.name;
-
             let date = exercise.date;
+
             for (let set of exercise.sets) {
                 let weight = set.weight;
+                if (weight > maxWeight) {
+                    maxWeight = weight;
+                }
                 xTicks.push(yyyyMmDdToEpoch(date));
                 yTicks.push(weight);
                 data.push({

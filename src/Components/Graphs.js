@@ -16,7 +16,7 @@ const EXERCISE_GROUPS = [
     "Cardio"
 ];
 
-const TESTING = true;
+const TESTING = false;
 
 export default class Graphs extends React.Component {
     constructor(props) {
@@ -75,7 +75,6 @@ export default class Graphs extends React.Component {
     }
 
     render() {
-        console.log(this.state.exercises);
         let tabOptions = EXERCISE_GROUPS.map((exercise) => {
             return (
                 <li

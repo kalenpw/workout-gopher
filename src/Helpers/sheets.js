@@ -56,12 +56,16 @@ function getSetsFromRow(row) {
     if (row.length === 0) {
         return;
     }
-    const setStartIndex = 2;
+    const WEIGHT_INDEX = 0;
+    const REPS_INDEX = 1;
+    const SET_START_INDEX = 2;
     let setObjects = [];
-    let sets = row.slice(setStartIndex);
+    let sets = row.slice(SET_START_INDEX);
     for (let i = 0; i < sets.length; i++) {
         let splitAmounts = sets[i].split("x");
-        setObjects.push(new Set(splitAmounts[0], splitAmounts[1]));
+        let weight = splitAmounts[WEIGHT_INDEX];
+        let reps = splitAmounts[REPS_INDEX];
+        setObjects.push(new Set(Number(weight), Number(reps)));
     }
     return setObjects;
 }
