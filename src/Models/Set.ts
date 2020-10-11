@@ -1,5 +1,8 @@
 export default class Set {
-    constructor(weight, reps) {
+    weight: number;
+    reps: number;
+
+    constructor(weight: number, reps: number) {
         this.weight = weight;
         this.reps = reps;
     }

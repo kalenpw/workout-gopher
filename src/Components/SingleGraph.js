@@ -3,6 +3,8 @@ import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import { ScatterChart, Scatter, CartesianGrid, XAxis, YAxis, ResponsiveContainer, Label } from 'recharts';
 
+import ExerciseStats from './ExcerciseStats.js';
+
 import { yyyyMmDdToEpoch, epochToYyyyMmDd } from "../Helpers/date";
 
 const GraphWrapper = styled.div`
@@ -74,6 +76,7 @@ export default class SingleGraph extends React.Component {
         return (
             <GraphWrapper className="column  is-half-desktop">
                 <h2 className="title">{graphTitle}</h2>
+                <ExerciseStats exercise={this.props.exercises}/>
                 <ResponsiveContainer minHeight="300px" width="100%">
                     <ScatterChart width={600} height={300} data={data}>
                         <Scatter name="Test" data={data} fill="#888fd8" />
