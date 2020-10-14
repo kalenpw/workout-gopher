@@ -8,6 +8,7 @@ import { isDate } from "./regex";
 declare const window: any;
 
 export function getSheetData(sheetName: string, callback: (n: any) => any) {
+    console.log("Starting API Call");
     window.gapi.client.load("sheets", "v4", () => {
         window.gapi.client.sheets.spreadsheets.values
             .get({
@@ -20,6 +21,7 @@ export function getSheetData(sheetName: string, callback: (n: any) => any) {
                     const data = response.result.values;
                     let formattedData = parseData(data);
                     callback(formattedData);
+                    console.log("Finished API call");
                 }
             );
     });
@@ -73,7 +75,6 @@ function getSetsFromRow(row: Array<any>): Set[] {
         let weight = splitAmounts[WEIGHT_INDEX];
         let reps = splitAmounts[REPS_INDEX];
         setObjects.push(new Set(Number(weight), Number(reps)));
-        // setObjects.push(new Set(weight, reps));
     }
     return setObjects;
 }

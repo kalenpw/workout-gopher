@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 
 import styled from 'styled-components';
-import { ScatterChart, Scatter, CartesianGrid, XAxis, YAxis, ResponsiveContainer, Label } from 'recharts';
+import { ScatterChart, Scatter, CartesianGrid, XAxis, YAxis, ResponsiveContainer} from 'recharts';
 
-import ExerciseStats from './ExcerciseStats.js';
+import ExerciseStats from './ExerciseStats';
 
 import { yyyyMmDdToEpoch, epochToYyyyMmDd } from "../Helpers/date";
 
@@ -49,16 +49,6 @@ export default class SingleGraph extends React.Component {
             }
         }
 
-        class CustomizedLabel extends PureComponent {
-            render() {
-                const {
-                    x, y, stroke, value,
-                } = this.props;
-
-                return <text x={x} y={y} dy={-4} fill={stroke} fontSize={10} textAnchor="middle">{value}</text>;
-            }
-        }
-
         class CustomizedAxisTick extends PureComponent {
             render() {
                 const {
@@ -67,7 +57,7 @@ export default class SingleGraph extends React.Component {
 
                 return (
                     <g transform={`translate(${x},${y})`}>
-                        <text x={0} y={0} dy={16} textAnchor="end" fill="#666" transform="rotate(-35)">{epochToYyyyMmDd(payload.value)}</text>
+                        <text stroke={stroke} x={0} y={0} dy={16} textAnchor="end" fill="#666" transform="rotate(-35)">{epochToYyyyMmDd(payload.value)}</text>
                     </g>
                 );
             }

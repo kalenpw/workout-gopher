@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { StrictMode } from 'react';
 
-import Graphs from "./Components/Graphs"
+import CoreApp from "./Components/CoreApp"
 import Navbar from "./Components/Navbar";
 
 function App() {
     return (
-        <div className="App">
-            <Navbar />
-            <Graphs/>
-        </div>
+        <StrictMode>
+            <div className="App">
+                <Navbar />
+                <CoreApp />
+            </div>
+        </StrictMode>
     );
 }
 

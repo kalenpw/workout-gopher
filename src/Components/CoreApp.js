@@ -1,10 +1,11 @@
 import React from 'react';
 
-import SingleGraph from "./SingleGraph";
-import SearchBar from "./Searchbar";
+import GraphsWrapper from "Components/GraphsWrapper";
+import SearchBar from "Components/Searchbar";
+import LoadingSpinner from "Components/LoadingSpinner";
 
 import config from "../config";
-import { getSheetData } from "../Helpers/sheets";
+import { getSheetData } from "Helpers/sheets";
 
 // TODO get this info from sheet names
 const EXERCISE_GROUPS = [
@@ -16,7 +17,7 @@ const EXERCISE_GROUPS = [
     "Cardio"
 ];
 
-export default class Graphs extends React.Component {
+export default class CoreApp extends React.Component {
     constructor(props) {
         super(props);
 
@@ -67,30 +68,25 @@ export default class Graphs extends React.Component {
     }
 
     render() {
+        // console.log(this.state.exercises);
         let tabOptions = EXERCISE_GROUPS.map((exercise) => {
             return (
                 <li
                     key={exercise}
                     onClick={() => this.selectExerciseGroup(exercise)}
                     className={(this.state.activeExerciseGroup === exercise) ? "is-active" : ""}>
-                    <a>{exercise}</a>
+                    <a href={'#' + exercise}>{exercise}</a>
                 </li>
             )
         });
-        let graphHtml = [];
-        let currentExericse = "";
-        if (!this.state.exercises || !this.state.exercises[this.state.activeExerciseGroup]) {
 
+        let currentWorkouts = this.state.exercises[this.state.activeExerciseGroup];
+        let graphHtml = "";
+        if(currentWorkouts) {
+            graphHtml = <GraphsWrapper searchText={this.state.searchText} workouts={currentWorkouts}/>;
         }
         else {
-            currentExericse = this.state.exercises[this.state.activeExerciseGroup];
-            // console.log(currentExericse);
-            for (let exerciseName in currentExericse) {
-                if (exerciseName.includes(this.state.searchText)) {
-                    graphHtml.push(<SingleGraph exercises={currentExericse[exerciseName]} key={exerciseName} />);
-                }
-                // console.log(currentExericse[exerciseName]);
-            }
+            graphHtml = <LoadingSpinner/>;
         }
 
         return (
@@ -101,9 +97,7 @@ export default class Graphs extends React.Component {
                     </ul>
                 </div>
                 <SearchBar handleChange={this.searchTextUpdated} />
-                <div className="pt-0 section columns is-multiline is-desktop">
-                    {graphHtml}
-                </div>
+                {graphHtml}
             </React.Fragment>
         )
     }
