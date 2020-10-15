@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 
 import styled from 'styled-components';
-import { ScatterChart, Scatter, CartesianGrid, XAxis, YAxis, ResponsiveContainer} from 'recharts';
+import { ScatterChart, Scatter, CartesianGrid, XAxis, YAxis, ResponsiveContainer } from 'recharts';
 
 import ExerciseStats from './ExerciseStats';
 
@@ -63,10 +63,14 @@ export default class SingleGraph extends React.Component {
             }
         }
 
+        console.log("Hidegrah");
+        console.log(this.props.hideGraph);
+        let hiddenClass = (this.props.hideGraph) ? "is-hidden" : "";
+
         return (
-            <GraphWrapper className="column  is-half-desktop">
+            <GraphWrapper className={"column is-half-desktop " + hiddenClass}>
                 <h2 className="title">{graphTitle}</h2>
-                <ExerciseStats exercise={this.props.exercises}/>
+                <ExerciseStats exercise={this.props.exercises} />
                 <ResponsiveContainer minHeight="300px" width="100%">
                     <ScatterChart width={600} height={300} data={data}>
                         <Scatter name="Test" data={data} fill="#888fd8" />

@@ -1,9 +1,11 @@
 import React from 'react';
 
 import SingleGraph from "Components/SingleGraph"
+import LoadingSpiner from './LoadingSpinner';
 
 export default class GraphsWrapper extends React.Component {
     constructor(props) {
+        console.log("Graphs wrapper constructor");
         super(props);
     }
 
@@ -16,9 +18,9 @@ export default class GraphsWrapper extends React.Component {
 
         // for ... in returns the key of object  in this case name of exercise
         for (let exerciseName in this.props.workouts) {
-            if (exerciseName.includes(this.props.searchText)) {
-                graphHtml.push(<SingleGraph exercises={this.props.workouts[exerciseName]} key={exerciseName} />);
-            }
+            let showGraph = exerciseName.includes(this.props.searchText);
+            console.log("We will show " + exerciseName + ": " + showGraph);
+            graphHtml.push(<SingleGraph hideGraph={!showGraph} exercises={this.props.workouts[exerciseName]} key={exerciseName} />);
         }
 
         return graphHtml;

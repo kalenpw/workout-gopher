@@ -24,7 +24,9 @@ export default class CoreApp extends React.Component {
         this.state = {
             exercises: {},
             activeExerciseGroup: "",
-            searchText: ""
+            searchText: "",
+            isLoading: true,
+            typingTimeout: 0,
         }
     }
 
@@ -46,12 +48,14 @@ export default class CoreApp extends React.Component {
     }
 
     selectExerciseGroup = (exerciseGroup) => {
+        this.setState({ isLoading: true });
         if (!this.state.exercises[exerciseGroup]) {
             this.getExerciseGroup(exerciseGroup);
         }
         else {
             this.setState({
-                activeExerciseGroup: exerciseGroup
+                activeExerciseGroup: exerciseGroup,
+                isLoading: false
             });
         }
     }
@@ -62,13 +66,13 @@ export default class CoreApp extends React.Component {
             newExercises[exerciseGroup] = data;
             this.setState({
                 activeExerciseGroup: exerciseGroup,
-                exercises: newExercises
+                exercises: newExercises,
             });
         });
     }
 
     render() {
-        // console.log(this.state.exercises);
+        console.log(this.state.exercises);
         let tabOptions = EXERCISE_GROUPS.map((exercise) => {
             return (
                 <li
@@ -79,14 +83,27 @@ export default class CoreApp extends React.Component {
                 </li>
             )
         });
-
+        if (this.state.isLoading) {
+            this.state.isLoading = false;
+            return (
+                <React.Fragment>
+                    <div className="tabs is-large is-centered">
+                        <ul>
+                            {tabOptions}
+                        </ul>
+                    </div>
+                    <SearchBar handleChange={this.searchTextUpdated} />
+                    <LoadingSpinner />
+                </React.Fragment>
+            );
+        }
         let currentWorkouts = this.state.exercises[this.state.activeExerciseGroup];
         let graphHtml = "";
-        if(currentWorkouts) {
-            graphHtml = <GraphsWrapper searchText={this.state.searchText} workouts={currentWorkouts}/>;
+        if (currentWorkouts) {
+            graphHtml = <GraphsWrapper searchText={this.state.searchText} workouts={currentWorkouts} />;
         }
         else {
-            graphHtml = <LoadingSpinner/>;
+            graphHtml = <LoadingSpinner />;
         }
 
         return (
