@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 
 import styled from 'styled-components';
-import { ScatterChart, Scatter, CartesianGrid, XAxis, YAxis, ResponsiveContainer } from 'recharts';
+import { ScatterChart, Scatter, CartesianGrid, XAxis, YAxis, ResponsiveContainer, Brush } from 'recharts';
 
 import ExerciseStats from './ExerciseStats';
 
@@ -57,7 +57,7 @@ export default class SingleGraph extends React.Component {
 
                 return (
                     <g transform={`translate(${x},${y})`}>
-                        <text stroke={stroke} x={0} y={0} dy={16} textAnchor="end" fill="#666" transform="rotate(-35)">{epochToYyyyMmDd(payload.value)}</text>
+                        <text fontSize={10} stroke={stroke} x={0} y={-12} dy={16} textAnchor="end" fill="#666" transform="rotate(-90)">{epochToYyyyMmDd(payload.value)}</text>
                     </g>
                 );
             }
@@ -68,16 +68,18 @@ export default class SingleGraph extends React.Component {
         let hiddenClass = (this.props.hideGraph) ? "is-hidden" : "";
 
         return (
-            <GraphWrapper className={"column is-half-desktop " + hiddenClass}>
+            <GraphWrapper className={"column is-full-desktop mb-6" + hiddenClass}>
                 <h2 className="title">{graphTitle}</h2>
                 <ExerciseStats exercise={this.props.exercises} />
                 <ResponsiveContainer minHeight="300px" width="100%">
-                    <ScatterChart width={600} height={300} data={data}>
+                    <ScatterChart data={data}>
                         <Scatter name="Test" data={data} fill="#888fd8" />
                         <CartesianGrid stroke="#ccc" />
+                        <Brush data={data} tickFormatter={(unixTime) => epochToYyyyMmDd(unixTime)} dataKey='date' height={30} stroke="#8884d8"/>
                         <XAxis
                             height={70}
                             domain={['auto', 'auto']}
+                            domain={['dataMin', 'dataMax']}
                             interval={0}
                             tickFormatter={(unixTime) => epochToYyyyMmDd(unixTime)}
                             name='Date'
