@@ -1,10 +1,15 @@
 <template>
-<nav class="navbar navbar-dark">
-  <a class="navbar-brand" href="#">
-    <img src="/img/gopher.png" height="30" class="d-inline-block align-top" alt="Gopher">
-    Workout Gopher
-  </a>
-</nav>
+    <nav class="navbar navbar-dark">
+        <a class="navbar-brand" href="/">
+            <img
+                src="/img/gopher.png"
+                height="50"
+                class="d-inline-block"
+                alt="Gopher"
+            />
+            Workout Gopher
+        </a>
+    </nav>
 </template>
 
 <script>
