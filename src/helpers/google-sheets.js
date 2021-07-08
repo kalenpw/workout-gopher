@@ -21,7 +21,6 @@ export function getSheetData(sheetName, callback) {
                 response => {
                     const data = response.result.values;
                     let formattedData = parseData(data);
-                    console.log(formattedData)
                     callback(formattedData);
                     console.log("Finished API call");
                 }
