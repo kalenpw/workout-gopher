@@ -14,7 +14,7 @@ export default defineComponent({
     computed: {
         nameID(props) {
             return nameFormattedForID(props.name);
-        }
+        },
     },
     setup(props) {
         let chartInstance;
@@ -88,80 +88,6 @@ export default defineComponent({
         });
     },
 });
-
-// export default {
-//     name: "GraphWrapper",
-//     props: [
-//         'name',
-//         'workouts',
-//     ],
-//     // props: {
-//     //     name: String,
-//     //     workouts: [],
-//     // },
-//     mounted() {
-//         let data = [];
-//         for (let workout of this.workouts) {
-//             for (let set of workout.sets) {
-//                 data.push([yyyyMmDdToEpoch(workout.date), set.weight]);
-//             }
-//         }
-
-//         this.series.push({
-//             name: "Weight:",
-//             data: data,
-//         });
-//     },
-//     data() {
-//         return {
-//             // populated in mounted()
-//             series: [],
-//             chartOptions: {
-//                 chart: {
-//                     id: this.name,
-//                     height: 350,
-//                     type: "scatter",
-//                     zoom: {
-//                         enabled: true,
-//                     },
-//                     toolbar: {
-//                         show: true,
-//                     },
-//                 },
-//                 tooltip: {
-//                     enabled: true,
-//                     x: {
-//                         show: false,
-//                     },
-//                 },
-//                 colors: ["#694966"],
-//                 dataLabels: {
-//                     enabled: false,
-//                 },
-//                 stroke: {
-//                     curve: "straight",
-//                 },
-//                 grid: {
-//                     row: {
-//                         colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
-//                         opacity: 0.5,
-//                     },
-//                 },
-//                 xaxis: {
-//                     type: "datetime",
-//                     labels: {
-//                         datetimeFormatter: {
-//                             year: "yyyy-MM-dd",
-//                             month: "yyyy-MM-dd",
-//                             day: "yyyy-MM-dd",
-//                             hour: "yyyy-MM-dd",
-//                         },
-//                     },
-//                 },
-//             },
-//         };
-//     },
-// };
 </script>
 
 <style scoped>
