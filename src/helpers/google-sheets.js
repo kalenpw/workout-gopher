@@ -1,6 +1,6 @@
 import config from "../config/config.js"
 
-import { isDate, isSet } from "../helpers/regex.js";
+import { isDate } from "../helpers/regex.js";
 
 import Exercise from "../models/exercise.js";
 import Set from "../models/set.js";

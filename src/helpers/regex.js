@@ -11,7 +11,7 @@ export function isDate(value) {
 }
 
 /**
- * Returns true/false if string is set of format weightxamount ie 100x10
+ * Returns true/false if string is set of format WEIGHTxAMOUNT ie 100x10
  * @param {string} value 
  */
 export function isSet(value) {

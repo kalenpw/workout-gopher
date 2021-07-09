@@ -2,9 +2,9 @@
     <div class="d-flex justify-content-center">
         <ul class="nav nav-pills card-header-pills m-4 pb-1">
             <li
+                class="nav-item px-1"
                 v-for="category in categories"
                 :key="category"
-                class="nav-item px-1"
                 @click="categoryClicked(category)"
             >
                 <span
@@ -24,10 +24,6 @@ export default {
     props: {
         categories: [],
         currentCategory: String,
-    },
-    created() {
-        console.log(this.categories);
-        console.log(this.currentCategory);
     },
     methods: {
         categoryClicked(value) {

@@ -8,11 +8,14 @@
         <div v-for="(value, name) in visibleGraphs" :key="name" class="mb-5">
             <GraphWrapper :name="name" :workouts="value" />
         </div>
-        <div v-if="toShow < maxOfCurrent" class="d-flex my-5 justify-content-center">
+        <div
+            v-if="amountToShow < maxGraphsOfCurrentCategory"
+            class="d-flex my-5 justify-content-center"
+        >
             <button class="btn" @click="loadMoreGraphs">Load more</button>
         </div>
     </template>
-    <div class="d-flex justify-content-center" v-else>
+    <div v-else class="d-flex justify-content-center">
         <LoadingSpinner />
     </div>
 </template>
@@ -23,6 +26,7 @@ import CategoryPicker from "./CategoryPicker.vue";
 import GraphWrapper from "./GraphWrapper.vue";
 import LoadingSpinner from "./LoadingSpinner.vue";
 
+// names of sheets in Google Sheets - required to fetch info
 const SHEETS = ["Legs", "Arms", "Chest", "Shoulders", "Back"];
 
 export default {
@@ -37,21 +41,22 @@ export default {
             sheetData: {},
             sheets: SHEETS,
             currentSheet: SHEETS[0],
-            toShow: 4,
+            amountToShow: 4,
         };
     },
     computed: {
         visibleGraphs() {
-            if (this.toShow >= this.maxOfCurrent) {
+            if (this.amountToShow >= this.maxGraphsOfCurrentCategory) {
                 return this.sheetData[this.currentSheet];
             }
+
             let index = 0;
-            this.showing = 0;
             let visible = {};
+
             for (const [key, value] of Object.entries(
                 this.sheetData[this.currentSheet]
             )) {
-                if (index >= this.toShow) {
+                if (index >= this.amountToShow) {
                     return visible;
                 }
                 if (!visible[key]) {
@@ -60,8 +65,9 @@ export default {
                 visible[key] = value;
                 index++;
             }
+            return visible;
         },
-        maxOfCurrent() {
+        maxGraphsOfCurrentCategory() {
             if (!this.sheetData[this.currentSheet]) {
                 return 0;
             }
@@ -79,17 +85,17 @@ export default {
         },
         updateSelectedCategory(value) {
             this.currentSheet = value;
-            this.toShow = 4;
+            this.amountToShow = 4;
             if (!this.sheetData[value]) {
                 getSheetData(value, this.updateSheetData);
             }
         },
         loadMoreGraphs() {
-            let tentative = (this.toShow += 2);
-            if (tentative > this.maxOfCurrent) {
-                tentative = this.maxOfCurrent;
+            let tentative = (this.amountToShow += 2);
+            if (tentative > this.maxGraphsOfCurrentCategory) {
+                tentative = this.maxGraphsOfCurrentCategory;
             }
-            this.toShow = tentative;
+            this.amountToShow = tentative;
         },
     },
 };

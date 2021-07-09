@@ -94,4 +94,27 @@ export default defineComponent({
 h2 {
     text-transform: capitalize;
 }
+#apexchartssquat {
+    border: 1px solid red !important;
+}
+.apexcharts-toolbar {
+    border: 1px solid red !important;
+}
+.apexcharts-selected {
+    fill: #694966 !important;
+    color: #694966 !important;
+    border: 1px solid red;
+}
+.apexcharts-selected svg {
+    fill: #694966 !important;
+    color: #694966 !important;
+}
+.apexcharts-selected svg text {
+    fill: #694966 !important;
+    color: #694966 !important;
+}
+.apexcharts-selected svg path {
+    fill: #694966 !important;
+    color: #694966 !important;
+}
 </style>
