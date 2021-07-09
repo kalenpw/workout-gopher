@@ -1,9 +1,9 @@
-<div style="text-align:center">
-<img width="100px" src="./public/img/gopher.png">
-<h1>Workout Gopher</h1>
-</div>
 
-----
+<img width="100px" src="./public/img/gopher.png">
+
+## Workout Gopher
+
+
 Workout Gopher is a Vue app that reads exercise history from a Google Sheet and graphs it via [ApexCharts](https://apexcharts.com/).
 
 ### Usage
