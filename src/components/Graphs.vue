@@ -9,8 +9,8 @@
             <GraphWrapper :name="name" :workouts="value" />
         </div>
     </template>
-    <div v-else>
-        <h1>Loading graphs</h1>
+    <div class="d-flex justify-content-center" v-else>
+        <LoadingSpinner/>
     </div>
 </template>
 
@@ -18,6 +18,7 @@
 import { initGoogleAPI, getSheetData } from "../helpers/google-sheets.js";
 import CategoryPicker from "./CategoryPicker.vue";
 import GraphWrapper from "./GraphWrapper.vue";
+import LoadingSpinner from "./LoadingSpinner.vue";
 
 const SHEETS = ["Legs", "Arms", "Chest", "Shoulders", "Back"];
 
@@ -26,6 +27,7 @@ export default {
     components: {
         CategoryPicker,
         GraphWrapper,
+        LoadingSpinner,
     },
     data() {
         return {
