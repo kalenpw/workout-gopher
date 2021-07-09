@@ -5,9 +5,9 @@
         @category-updated="updateSelectedCategory"
     />
     <template v-if="sheetData[currentSheet]">
-        <p v-for="(value, name) in sheetData[currentSheet]" :key="name">
+        <div v-for="(value, name) in sheetData[currentSheet]" :key="name">
             <GraphWrapper :name="name" :workouts="value" />
-        </p>
+        </div>
     </template>
     <div v-else>
         <h1>Loading graphs</h1>
@@ -36,19 +36,17 @@ export default {
     },
     mounted() {
         initGoogleAPI(() => {
-            getSheetData("Legs", this.updateState);
+            getSheetData("Legs", this.updateSheetData);
         });
     },
     methods: {
-        updateState(value) {
+        updateSheetData(value) {
             this.sheetData[this.currentSheet] = value;
-            console.log(this.sheetData[this.currentSheet]);
-            
         },
         updateSelectedCategory(value) {
             this.currentSheet = value;
             if (!this.sheetData[value]) {
-                getSheetData(value, this.updateState);
+                getSheetData(value, this.updateSheetData);
             }
         },
     },

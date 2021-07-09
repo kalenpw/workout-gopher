@@ -1,82 +1,167 @@
 <template>
     <h2>{{ name }}</h2>
-    <div :id="name">
-        <apexchart
-            type="scatter"
-            height="350"
-            :options="chartOptions"
-            :series="series"
-        ></apexchart>
-    </div>
+    <div :id="nameID"></div>
 </template>
 
 <script>
 import { yyyyMmDdToEpoch } from "../helpers/date.js";
+import { nameFormattedForID } from "../helpers/html.js";
+import { defineComponent, onMounted } from "vue";
+import ApexChart from "apexcharts";
 
-export default {
-    name: "GraphWrapper",
-    props: {
-        name: String,
-        workouts: [],
-    },
-    mounted() {
-        let data = [];
-        for (let workout of this.workouts) {
-            for (let set of workout.sets) {
-                data.push([yyyyMmDdToEpoch(workout.date), set.weight]);
-            }
-            // data.push([yyyyMmDdToEpoch(workout.date), 100]);
+export default defineComponent({
+    props: ["name", "workouts"],
+    computed: {
+        nameID(props) {
+            return nameFormattedForID(props.name);
         }
-
-        this.series.push({
-            name: "Desktops",
-            data: data,
-        });
     },
-    data() {
-        return {
-            // populated in mounted()
-            series: [],
-            chartOptions: {
-                chart: {
-                    id: this.name,
-                    height: 350,
-                    type: "scatter",
-                    zoom: {
-                        enabled: false,
-                    },
-                    toolbar: {
-                        show: false,
-                    },
+    setup(props) {
+        let chartInstance;
+
+        const options = {
+            colors: ["#694966"],
+            chart: {
+                id: props.name,
+                height: 350,
+                type: "scatter",
+                zoom: {
+                    enabled: true,
                 },
-                colors: ["#694966"],
-                dataLabels: {
-                    enabled: false,
+                toolbar: {
+                    show: true,
                 },
-                stroke: {
-                    curve: "straight",
+            },
+            tooltip: {
+                enabled: true,
+                x: {
+                    show: false,
                 },
-                grid: {
-                    row: {
-                        colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
-                        opacity: 0.5,
-                    },
+            },
+            dataLabels: {
+                enabled: false,
+            },
+            grid: {
+                row: {
+                    colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
+                    opacity: 0.5,
                 },
-                xaxis: {
-                    type: "datetime",
-                    labels: {
-                        datetimeFormatter: {
-                            year: "yyyy-MM-dd",
-                            month: "yyyy-MM-dd",
-                            day: "yyyy-MM-dd",
-                            hour: "yyyy-MM-dd",
-                        },
+            },
+            xaxis: {
+                type: "datetime",
+                labels: {
+                    datetimeFormatter: {
+                        year: "yyyy-MM-dd",
+                        month: "yyyy-MM-dd",
+                        day: "yyyy-MM-dd",
+                        hour: "yyyy-MM-dd",
                     },
                 },
             },
         };
+
+        const getChartData = () => {
+            let data = [];
+            for (let workout of props.workouts) {
+                for (let set of workout.sets) {
+                    data.push([yyyyMmDdToEpoch(workout.date), set.weight]);
+                }
+            }
+
+            return [
+                {
+                    name: "Weight: ",
+                    data: data,
+                },
+            ];
+        };
+
+        onMounted(() => {
+            chartInstance = new ApexChart(
+                document.querySelector(`#${nameFormattedForID(props.name)}`),
+                {
+                    ...options,
+                    series: getChartData(),
+                }
+            );
+            chartInstance.render();
+        });
     },
-};
+});
+
+// export default {
+//     name: "GraphWrapper",
+//     props: [
+//         'name',
+//         'workouts',
+//     ],
+//     // props: {
+//     //     name: String,
+//     //     workouts: [],
+//     // },
+//     mounted() {
+//         let data = [];
+//         for (let workout of this.workouts) {
+//             for (let set of workout.sets) {
+//                 data.push([yyyyMmDdToEpoch(workout.date), set.weight]);
+//             }
+//         }
+
+//         this.series.push({
+//             name: "Weight:",
+//             data: data,
+//         });
+//     },
+//     data() {
+//         return {
+//             // populated in mounted()
+//             series: [],
+//             chartOptions: {
+//                 chart: {
+//                     id: this.name,
+//                     height: 350,
+//                     type: "scatter",
+//                     zoom: {
+//                         enabled: true,
+//                     },
+//                     toolbar: {
+//                         show: true,
+//                     },
+//                 },
+//                 tooltip: {
+//                     enabled: true,
+//                     x: {
+//                         show: false,
+//                     },
+//                 },
+//                 colors: ["#694966"],
+//                 dataLabels: {
+//                     enabled: false,
+//                 },
+//                 stroke: {
+//                     curve: "straight",
+//                 },
+//                 grid: {
+//                     row: {
+//                         colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
+//                         opacity: 0.5,
+//                     },
+//                 },
+//                 xaxis: {
+//                     type: "datetime",
+//                     labels: {
+//                         datetimeFormatter: {
+//                             year: "yyyy-MM-dd",
+//                             month: "yyyy-MM-dd",
+//                             day: "yyyy-MM-dd",
+//                             hour: "yyyy-MM-dd",
+//                         },
+//                     },
+//                 },
+//             },
+//         };
+//     },
+// };
 </script>
 
 <style scoped>

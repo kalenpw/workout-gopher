@@ -3,6 +3,7 @@
     <div class="container">
         <Graphs />
         <!-- <TestGraph /> -->
+        <!-- <TestGraph2/> -->
     </div>
 </template>
 
@@ -10,6 +11,7 @@
 import Navbar from "./components/Navbar.vue";
 import Graphs from "./components/Graphs.vue";
 import TestGraph from "./components/TestGraph.vue";
+import TestGraph2 from "./components/TestGraph2.vue";
 
 export default {
     name: "App",
@@ -17,6 +19,7 @@ export default {
         Navbar,
         Graphs,
         TestGraph,
+        TestGraph2,
     },
     mounted() {},
 };
