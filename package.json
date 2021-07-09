@@ -9,11 +9,10 @@
     "@popperjs/core": "^2.9.2",
     "apexcharts": "^3.27.2",
     "bootstrap": "^5.0.2",
-    "vue": "^3.0.4",
-    "vue3-apexcharts": "^1.4.0"
+    "vue": "^3.0.4"
   },
   "devDependencies": {
-    "vite": "^1.0.0-rc.13",
-    "@vue/compiler-sfc": "^3.0.4"
+    "@vue/compiler-sfc": "^3.0.4",
+    "vite": "^1.0.0-rc.13"
   }
 }
