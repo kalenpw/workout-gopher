@@ -1,6 +1,6 @@
 <template>
     <nav class="navbar navbar-dark">
-        <a class="navbar-brand" href="/">
+        <a class="navbar-brand ms-4" href="/">
             <img
                 src="/img/gopher.png"
                 height="50"
