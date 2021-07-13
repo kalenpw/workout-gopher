@@ -1,6 +1,6 @@
 <template>
     <div class="d-flex justify-content-center">
-        <ul class="nav nav-pills card-header-pills m-4 pb-1">
+        <ul class="nav nav-pills card-header-pills mx-0 mx-md-4 my-2 mb-4 my-md-4 pb-1">
             <li
                 class="nav-item px-1"
                 v-for="category in categories"
